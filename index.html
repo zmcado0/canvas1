@@ -3,145 +3,258 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Femme Futures</title>
-    <style id="site-styles">
-        /* Previous CSS remains the same, adding Substack-specific styles */
-        .substack-section {
-            background-color: white;
+    <title>Femme Futures: Y2K Edition</title>
+    <style>
+        :root {
+            --primary-pink: #FF6EFF;
+            --secondary-blue: #00FFFF;
+            --text-primary: #FFFFFF;
+            --background-color: #000000;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-primary);
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+        }
+
+        .nav-menu {
+            display: flex;
+            justify-content: center;
+            background-color: rgba(255,110,255,0.1);
+            padding: 15px;
+            border-bottom: 2px solid var(--primary-pink);
+        }
+
+        .nav-menu a {
+            color: var(--primary-pink);
+            text-decoration: none;
+            margin: 0 15px;
+            font-weight: bold;
+            transition: color 0.3s ease;
+        }
+
+        .nav-menu a:hover {
+            color: var(--secondary-blue);
+        }
+
+        .page {
+            display: none;
+            padding: 20px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        h2 {
+            color: var(--secondary-blue);
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        /* Blog Form Styles */
+        .blog-form {
+            background: rgba(255,110,255,0.1);
+            border: 2px solid var(--primary-pink);
             border-radius: 10px;
-            padding: 1rem;
-            margin-top: 1rem;
+            padding: 20px;
+            max-width: 600px;
+            margin: 0 auto;
         }
 
-        .substack-post {
-            border-bottom: 1px solid #eee;
-            padding: 1rem 0;
+        .blog-form input, 
+        .blog-form textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            background: black;
+            color: var(--text-primary);
+            border: 2px solid var(--primary-pink);
         }
 
-        .substack-post:last-child {
+        .blog-form button {
+            background: var(--primary-pink);
+            color: black;
+            border: none;
+            padding: 10px 20px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .blog-post {
+            background: rgba(255,110,255,0.1);
+            border: 2px solid var(--primary-pink);
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .blog-post-date {
+            color: var(--secondary-blue);
+            font-size: 0.8rem;
+            margin-bottom: 10px;
+        }
+
+        .delete-post {
+            background: red;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            margin-top: 10px;
+            cursor: pointer;
+        }
+
+        /* New Page Styles */
+        .page-content {
+            background: rgba(255,110,255,0.1);
+            border: 2px solid var(--primary-pink);
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+
+        .rss-article {
+            border-bottom: 1px solid var(--primary-pink);
+            padding: 15px 0;
+        }
+
+        .rss-article:last-child {
             border-bottom: none;
         }
 
-        .substack-post-title {
-            color: var(--primary-color);
+        .rss-article a {
+            color: var(--primary-pink);
             text-decoration: none;
-            font-weight: bold;
         }
 
-        .substack-post-meta {
-            display: flex;
-            justify-content: space-between;
-            color: #666;
-            font-size: 0.9rem;
-            margin-top: 0.5rem;
-        }
-
-        #substack-feed {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1rem;
-        }
-
-        .substack-subscription {
-            background-color: var(--primary-color);
-            color: white;
-            padding: 1rem;
-            text-align: center;
-            border-radius: 10px;
-            margin-top: 1rem;
-        }
-
-        .substack-subscription a {
-            color: white;
-            text-decoration: none;
-            font-weight: bold;
+        .rss-article a:hover {
+            color: var(--secondary-blue);
+            text-decoration: underline;
         }
     </style>
 </head>
 <body>
-    <!-- Previous HTML remains the same, adding Substack section to the navigation and page sections -->
-    <nav class="navbar">
-        <a href="#" class="navbar-brand">Femme Futures</a>
-        <div class="nav-links">
-            <a href="#" data-page="landing">Home</a>
-            <a href="#" data-page="blog-posts">Blog</a>
-            <a href="#" data-page="substack">Substack</a>
-            <a href="#" data-page="community-chat">Community</a>
-            <a href="#" data-page="about-me">About</a>
-        </div>
+    <nav class="nav-menu">
+        <a href="#" data-page="home">Home</a>
+        <a href="#" data-page="blog-posts">Blog</a>
+        <a href="#" data-page="community">Community</a>
+        <a href="#" data-page="about">About</a>
+        <a href="#" data-page="support">Support</a>
     </nav>
 
-    <!-- Add Substack section -->
-    <section id="substack" class="page-section">
-        <h2>Femme Futures on Substack</h2>
-        <div class="substack-section">
-            <div id="substack-feed">
-                <!-- Substack posts will be dynamically added here -->
+    <main>
+        <section id="home" class="page active">
+            <h2>Welcome to Femme Futures</h2>
+            <div class="page-content">
+                <p>Exploring tech, creativity, and empowerment through a Y2K lens.</p>
+                <h3>Latest Articles</h3>
+                <div id="rss-feed-container">
+                    <p>Loading articles...</p>
+                </div>
             </div>
-            <div class="substack-subscription">
-                <a href="https://yoursubstack.substack.com" target="_blank">Subscribe to Femme Futures on Substack</a>
-            </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- Previous sections remain the same -->
+        <section id="blog-posts" class="page">
+            <h2>Substack Articles</h2>
+            <div id="substack-articles-container">
+                <!-- Dynamically populated Substack articles -->
+            </div>
+        </section>
+
+        <section id="community" class="page">
+            <h2>Community</h2>
+            <div class="page-content">
+                <h3>Connect with Femme Futures</h3>
+                <p>Join our vibrant community of tech-savvy, creative individuals!</p>
+                <ul>
+                    <li>Discord Server (Coming Soon)</li>
+                    <li>Twitter/X Community</li>
+                    <li>Weekly Meetups</li>
+                </ul>
+            </div>
+        </section>
+
+        <section id="about" class="page">
+            <h2>About Me</h2>
+            <div class="page-content">
+                <h3>Who I Am</h3>
+                <p>A tech enthusiast, writer, and creator passionate about empowering femme voices in technology and creative spaces.</p>
+                <h3>My Mission</h3>
+                <p>Bridging the gap between nostalgia and innovation, one story at a time.</p>
+            </div>
+        </section>
+
+        <section id="support" class="page">
+            <h2>Support the Project</h2>
+            <div class="page-content">
+                <h3>Buy Me a Coffee</h3>
+                <p>Help fuel creativity and keep the content coming!</p>
+                <a href="https://buymeacoffee.com/yourusername" target="_blank" style="display: inline-block; background: var(--primary-pink); color: black; padding: 10px 20px; text-decoration: none; border-radius: 5px;">
+                    ☕ Support Femme Futures
+                </a>
+            </div>
+        </section>
+    </main>
 
     <script>
-        // Previous JavaScript remains the same, adding Substack integration
-
-        // Substack Posts Data (simulated)
-        const substackPosts = [
-            {
-                title: "The Future of Female Leadership in Tech",
-                excerpt: "Breaking down barriers and creating new pathways...",
-                date: "March 15, 2024",
-                url: "https://yoursubstack.substack.com/p/leadership-in-tech"
-            },
-            {
-                title: "Intersectionality in Modern Feminism",
-                excerpt: "Exploring the complex landscape of identity and empowerment...",
-                date: "February 22, 2024",
-                url: "https://yoursubstack.substack.com/p/intersectionality"
-            },
-            {
-                title: "Innovators: Women Changing the World",
-                excerpt: "Profiles of groundbreaking women across various industries...",
-                date: "January 10, 2024",
-                url: "https://yoursubstack.substack.com/p/innovators"
-            }
-        ];
-
-        // Render Substack Posts
-        const substackFeedContainer = document.getElementById('substack-feed');
-        substackPosts.forEach(post => {
-            const postElement = document.createElement('div');
-            postElement.classList.add('substack-post');
-            postElement.innerHTML = `
-                <a href="${post.url}" target="_blank" class="substack-post-title">${post.title}</a>
-                <p>${post.excerpt}</p>
-                <div class="substack-post-meta">
-                    <span>${post.date}</span>
-                    <a href="${post.url}" target="_blank">Read More</a>
-                </div>
-            `;
-            substackFeedContainer.appendChild(postElement);
-        });
-
-        // Add Substack to Navigation Logic
-        document.querySelectorAll('.nav-links a').forEach(link => {
+        // Navigation Handler
+        document.querySelectorAll('.nav-menu a').forEach(link => {
             link.addEventListener('click', (e) => {
                 e.preventDefault();
                 const pageId = e.target.getAttribute('data-page');
                 
-                // Hide all sections
-                document.querySelectorAll('.page-section').forEach(section => {
-                    section.classList.remove('active');
+                // Hide all pages
+                document.querySelectorAll('.page').forEach(page => {
+                    page.classList.remove('active');
                 });
 
-                // Show selected section
+                // Show selected page
                 document.getElementById(pageId).classList.add('active');
             });
         });
+
+        // RSS Feed Integration
+        async function fetchSubstackRSS() {
+            const homeFeedContainer = document.getElementById('rss-feed-container');
+            const substackArticlesContainer = document.getElementById('substack-articles-container');
+            
+            try {
+                // Replace with your GitHub raw content URL for the JSON file
+                const response = await fetch('https://raw.githubusercontent.com/yourusername/your-repo-name/main/substack-feed.json');
+                const articles = await response.json();
+
+                // Populate home page latest articles
+                homeFeedContainer.innerHTML = articles.slice(0, 3).map(article => `
+                    <div class="rss-article">
+                        <h4><a href="${article.link}" target="_blank">${article.title}</a></h4>
+                        <small>${article.published}</small>
+                    </div>
+                `).join('');
+
+                // Populate full blog posts page
+                substackArticlesContainer.innerHTML = articles.map(article => `
+                    <div class="blog-post">
+                        <h3><a href="${article.link}" target="_blank">${article.title}</a></h3>
+                        <div class="blog-post-date">${article.published}</div>
+                        <p>${article.summary.slice(0, 300)}...</p>
+                        <a href="${article.link}" target="_blank" style="color: var(--primary-pink)">Read More</a>
+                    </div>
+                `).join('');
+            } catch (error) {
+                homeFeedContainer.innerHTML = '<p>Error loading articles</p>';
+                substackArticlesContainer.innerHTML = '<p>Error loading articles</p>';
+                console.error('RSS Feed Error:', error);
+            }
+        }
+
+        // Call RSS feed function on page load
+        fetchSubstackRSS();
     </script>
 </body>
 </html>
