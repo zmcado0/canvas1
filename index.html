@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Femme Futures</title>
+    <style id="site-styles">
+        /* Previous CSS remains the same, adding Substack-specific styles */
+        .substack-section {
+            background-color: white;
+            border-radius: 10px;
+            padding: 1rem;
+            margin-top: 1rem;
+        }
+
+        .substack-post {
+            border-bottom: 1px solid #eee;
+            padding: 1rem 0;
+        }
+
+        .substack-post:last-child {
+            border-bottom: none;
+        }
+
+        .substack-post-title {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .substack-post-meta {
+            display: flex;
+            justify-content: space-between;
+            color: #666;
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+        }
+
+        #substack-feed {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+        }
+
+        .substack-subscription {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 1rem;
+            text-align: center;
+            border-radius: 10px;
+            margin-top: 1rem;
+        }
+
+        .substack-subscription a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <!-- Previous HTML remains the same, adding Substack section to the navigation and page sections -->
+    <nav class="navbar">
+        <a href="#" class="navbar-brand">Femme Futures</a>
+        <div class="nav-links">
+            <a href="#" data-page="landing">Home</a>
+            <a href="#" data-page="blog-posts">Blog</a>
+            <a href="#" data-page="substack">Substack</a>
+            <a href="#" data-page="community-chat">Community</a>
+            <a href="#" data-page="about-me">About</a>
+        </div>
+    </nav>
+
+    <!-- Add Substack section -->
+    <section id="substack" class="page-section">
+        <h2>Femme Futures on Substack</h2>
+        <div class="substack-section">
+            <div id="substack-feed">
+                <!-- Substack posts will be dynamically added here -->
+            </div>
+            <div class="substack-subscription">
+                <a href="https://yoursubstack.substack.com" target="_blank">Subscribe to Femme Futures on Substack</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Previous sections remain the same -->
+
+    <script>
+        // Previous JavaScript remains the same, adding Substack integration
+
+        // Substack Posts Data (simulated)
+        const substackPosts = [
+            {
+                title: "The Future of Female Leadership in Tech",
+                excerpt: "Breaking down barriers and creating new pathways...",
+                date: "March 15, 2024",
+                url: "https://yoursubstack.substack.com/p/leadership-in-tech"
+            },
+            {
+                title: "Intersectionality in Modern Feminism",
+                excerpt: "Exploring the complex landscape of identity and empowerment...",
+                date: "February 22, 2024",
+                url: "https://yoursubstack.substack.com/p/intersectionality"
+            },
+            {
+                title: "Innovators: Women Changing the World",
+                excerpt: "Profiles of groundbreaking women across various industries...",
+                date: "January 10, 2024",
+                url: "https://yoursubstack.substack.com/p/innovators"
+            }
+        ];
+
+        // Render Substack Posts
+        const substackFeedContainer = document.getElementById('substack-feed');
+        substackPosts.forEach(post => {
+            const postElement = document.createElement('div');
+            postElement.classList.add('substack-post');
+            postElement.innerHTML = `
+                <a href="${post.url}" target="_blank" class="substack-post-title">${post.title}</a>
+                <p>${post.excerpt}</p>
+                <div class="substack-post-meta">
+                    <span>${post.date}</span>
+                    <a href="${post.url}" target="_blank">Read More</a>
+                </div>
+            `;
+            substackFeedContainer.appendChild(postElement);
+        });
+
+        // Add Substack to Navigation Logic
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const pageId = e.target.getAttribute('data-page');
+                
+                // Hide all sections
+                document.querySelectorAll('.page-section').forEach(section => {
+                    section.classList.remove('active');
+                });
+
+                // Show selected section
+                document.getElementById(pageId).classList.add('active');
+            });
+        });
+    </script>
+</body>
+</html>
