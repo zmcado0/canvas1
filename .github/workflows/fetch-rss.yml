@@ -27,8 +27,7 @@ jobs:
         import feedparser
         import json
         
-        # Replace with your Substack RSS feed URL
-        feed_url = "https://yourusername.substack.com/feed"
+        feed_url = "https://femmefuturescooperative.substack.com/feed"
         
         feed = feedparser.parse(feed_url)
         
