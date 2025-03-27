@@ -225,7 +225,7 @@
             const substackArticlesContainer = document.getElementById('substack-articles-container');
             
             try {
-                // Replace with your GitHub raw content URL for the JSON file
+                // Replace with the raw GitHub content URL for your repository
                 const response = await fetch('https://raw.githubusercontent.com/yourusername/your-repo-name/main/substack-feed.json');
                 const articles = await response.json();
 
