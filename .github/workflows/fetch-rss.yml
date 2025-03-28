@@ -1,14 +1,20 @@
 name: Fetch Substack RSS Feed
 on:
   schedule:
-    - cron: '0 */4 * * *'  # Runs every 4 hours (fixed syntax)
+    - cron: '0 */4 * * *'  # Runs every 4 hours
   workflow_dispatch:  # Allows manual triggering
+
+# Add explicit permissions for GitHub Actions
+permissions:
+  contents: write
 
 jobs:
   fetch-rss:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
     
     - name: Set up Python
       uses: actions/setup-python@v4
@@ -18,41 +24,75 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install feedparser
+        pip install feedparser requests
     
     - name: Fetch RSS Feed
       run: |
         python3 - << EOF
         import feedparser
         import json
+        import requests
         from datetime import datetime
         
+        # Correct Substack URL
         feed_url = "https://femmefuturescooperative.substack.com/feed"
         
-        feed = feedparser.parse(feed_url)
-        
-        # Extract relevant article information
-        articles = []
-        for entry in feed.entries[:10]:  # Limit to 10 most recent articles
-            # Parse the published date
-            try:
-                # Try parsing with different formats
-                parsed_date = datetime.strptime(entry.published, "%a, %d %b %Y %H:%M:%S %z")
-                formatted_date = parsed_date.strftime("%B %d, %Y")
-            except:
-                formatted_date = entry.published
+        try:
+            # First try with requests to check if the URL is accessible
+            response = requests.get(feed_url)
+            response.raise_for_status()
             
-            article = {
-                "title": entry.title,
-                "link": entry.link,
-                "published": formatted_date,
-                "summary": entry.summary[:300] + "..." if len(entry.summary) > 300 else entry.summary
-            }
-            articles.append(article)
-        
-        # Write to JSON file
-        with open('substack-feed.json', 'w', encoding='utf-8') as f:
-            json.dump(articles, f, indent=2, ensure_ascii=False)
+            # Then parse with feedparser
+            feed = feedparser.parse(feed_url)
+            
+            if not feed.entries:
+                raise Exception("No entries found in feed")
+            
+            # Extract relevant article information
+            articles = []
+            for entry in feed.entries[:10]:  # Limit to 10 most recent articles
+                # Parse the published date
+                try:
+                    # Try parsing with different formats
+                    parsed_date = datetime.strptime(entry.published, "%a, %d %b %Y %H:%M:%S %z")
+                    formatted_date = parsed_date.strftime("%B %d, %Y")
+                except Exception as e:
+                    print(f"Date parsing error: {e}")
+                    formatted_date = entry.published
+                
+                # Extract summary, handle cases where it might be missing
+                summary = entry.get('summary', '')
+                if not summary and 'content' in entry:
+                    summary = entry.content[0].value
+                
+                summary = summary[:300] + "..." if len(summary) > 300 else summary
+                
+                article = {
+                    "title": entry.title,
+                    "link": entry.link,
+                    "published": formatted_date,
+                    "summary": summary
+                }
+                articles.append(article)
+            
+            # Write to JSON file
+            with open('substack-feed.json', 'w', encoding='utf-8') as f:
+                json.dump(articles, f, indent=2, ensure_ascii=False)
+                
+            print(f"Successfully fetched {len(articles)} articles")
+            
+        except Exception as e:
+            print(f"Error fetching feed: {e}")
+            # Create a minimal JSON if there was an error
+            with open('substack-feed.json', 'w', encoding='utf-8') as f:
+                json.dump([
+                    {
+                        "title": "Visit our Substack",
+                        "link": "https://femmefuturescooperative.substack.com",
+                        "published": datetime.now().strftime("%B %d, %Y"),
+                        "summary": "Check out our latest articles on Substack directly."
+                    }
+                ], f, indent=2, ensure_ascii=False)
         EOF
     
     - name: Commit and Push
@@ -61,4 +101,4 @@ jobs:
         git config user.email github-actions@github.com
         git add substack-feed.json
         git commit -m "Update Substack RSS feed" || exit 0
-        git push
+        git push origin HEAD:main
