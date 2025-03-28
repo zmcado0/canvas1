@@ -137,6 +137,23 @@
             color: var(--secondary-blue);
             text-decoration: underline;
         }
+
+        .loading {
+            text-align: center;
+            color: var(--secondary-blue);
+            margin: 20px 0;
+        }
+
+        .substack-link {
+            display: inline-block;
+            background: var(--primary-pink);
+            color: black;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-top: 20px;
+            font-weight: bold;
+        }
     </style>
 </head>
 <body>
@@ -154,16 +171,19 @@
             <div class="page-content">
                 <p>Exploring tech, creativity, and empowerment through a Y2K lens.</p>
                 <h3>Latest Articles</h3>
-                <div id="rss-feed-container">
+                <div id="rss-feed-container" class="loading">
                     <p>Loading articles...</p>
+                </div>
+                <div class="text-center">
+                    <a href="https://femmefuturescooperative.substack.com" target="_blank" class="substack-link">Visit Substack</a>
                 </div>
             </div>
         </section>
 
         <section id="blog-posts" class="page">
             <h2>Substack Articles</h2>
-            <div id="substack-articles-container">
-                <!-- Dynamically populated Substack articles -->
+            <div id="substack-articles-container" class="loading">
+                <p>Loading articles...</p>
             </div>
         </section>
 
@@ -225,8 +245,14 @@
             const substackArticlesContainer = document.getElementById('substack-articles-container');
             
             try {
-                // Replace with the raw GitHub content URL for your repository
-                const response = await fetch('https://raw.githubusercontent.com/yourusername/your-repo-name/main/substack-feed.json');
+                // Use the local JSON file (updated by the GitHub Action)
+                // This approach avoids CORS issues
+                const response = await fetch('./substack-feed.json');
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+                
                 const articles = await response.json();
 
                 // Populate home page latest articles
@@ -234,6 +260,7 @@
                     <div class="rss-article">
                         <h4><a href="${article.link}" target="_blank">${article.title}</a></h4>
                         <small>${article.published}</small>
+                        <p>${article.summary}</p>
                     </div>
                 `).join('');
 
@@ -242,19 +269,28 @@
                     <div class="blog-post">
                         <h3><a href="${article.link}" target="_blank">${article.title}</a></h3>
                         <div class="blog-post-date">${article.published}</div>
-                        <p>${article.summary.slice(0, 300)}...</p>
+                        <p>${article.summary}</p>
                         <a href="${article.link}" target="_blank" style="color: var(--primary-pink)">Read More</a>
                     </div>
                 `).join('');
             } catch (error) {
-                homeFeedContainer.innerHTML = '<p>Error loading articles</p>';
-                substackArticlesContainer.innerHTML = '<p>Error loading articles</p>';
                 console.error('RSS Feed Error:', error);
+                
+                // Show error message with link to Substack
+                const errorHtml = `
+                    <p>Unable to load articles at this time.</p>
+                    <p><a href="https://femmefuturescooperative.substack.com" target="_blank" style="color: var(--primary-pink)">Visit our Substack directly</a></p>
+                `;
+                
+                homeFeedContainer.innerHTML = errorHtml;
+                substackArticlesContainer.innerHTML = errorHtml;
             }
         }
 
         // Call RSS feed function on page load
-        fetchSubstackRSS();
+        window.addEventListener('DOMContentLoaded', (event) => {
+            fetchSubstackRSS();
+        });
     </script>
 </body>
 </html>
