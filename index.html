@@ -3,294 +3,427 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Femme Futures: Y2K Edition</title>
+    <title>Femme Futures Cooperative - Y2K Professional Edition</title>
     <style>
-        :root {
-            --primary-pink: #FF6EFF;
-            --secondary-blue: #00FFFF;
-            --text-primary: #FFFFFF;
-            --background-color: #000000;
-        }
-
+        /* Global Styles */
         body {
-            font-family: 'Arial', sans-serif;
-            background-color: var(--background-color);
-            color: var(--text-primary);
             margin: 0;
             padding: 0;
-            line-height: 1.6;
+            font-family: 'Arial', sans-serif;
+            background-color: #f0e6ff;
+            color: #663399;
+            background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M50 50 L25 25 L75 25 Z' fill='%23ffcceb' fill-opacity='0.2'/%3E%3Cpath d='M50 50 L75 75 L25 75 Z' fill='%23ffcceb' fill-opacity='0.2'/%3E%3C/svg%3E");
         }
 
-        .nav-menu {
+        /* Container */
+        .container {
+            max-width: 960px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            padding: 25px;
+            background: linear-gradient(to right, #e6ccff, #ccf2ff);
+            border: 3px solid white;
+            border-radius: 15px;
+            box-shadow: 5px 5px 0px #cc99ff, 10px 10px 0px #99ccff;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            font-size: 2.8em;
+            margin: 0;
+            color: #9933cc;
+            text-shadow: 2px 2px 0px white, 3px 3px 0px #99ccff;
+            letter-spacing: 1px;
+            font-weight: bold;
+        }
+
+        .tagline {
+            font-size: 1.2em;
+            margin-top: 10px;
+            color: #6666cc;
+            font-style: italic;
+        }
+
+        /* Navigation */
+        .nav {
             display: flex;
             justify-content: center;
-            background-color: rgba(255,110,255,0.1);
-            padding: 15px;
-            border-bottom: 2px solid var(--primary-pink);
-        }
-
-        .nav-menu a {
-            color: var(--primary-pink);
-            text-decoration: none;
-            margin: 0 15px;
-            font-weight: bold;
-            transition: color 0.3s ease;
-        }
-
-        .nav-menu a:hover {
-            color: var(--secondary-blue);
-        }
-
-        .page {
-            display: none;
-            padding: 20px;
-            max-width: 800px;
-            margin: 0 auto;
-        }
-
-        .page.active {
-            display: block;
-        }
-
-        h2 {
-            color: var(--secondary-blue);
-            text-align: center;
-            margin-bottom: 20px;
-        }
-
-        /* Blog Form Styles */
-        .blog-form {
-            background: rgba(255,110,255,0.1);
-            border: 2px solid var(--primary-pink);
-            border-radius: 10px;
-            padding: 20px;
-            max-width: 600px;
-            margin: 0 auto;
-        }
-
-        .blog-form input, 
-        .blog-form textarea {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 10px;
-            background: black;
-            color: var(--text-primary);
-            border: 2px solid var(--primary-pink);
-        }
-
-        .blog-form button {
-            background: var(--primary-pink);
-            color: black;
-            border: none;
-            padding: 10px 20px;
-            font-weight: bold;
-            cursor: pointer;
-        }
-
-        .blog-post {
-            background: rgba(255,110,255,0.1);
-            border: 2px solid var(--primary-pink);
-            border-radius: 10px;
-            padding: 20px;
-            margin-bottom: 20px;
-        }
-
-        .blog-post-date {
-            color: var(--secondary-blue);
-            font-size: 0.8rem;
-            margin-bottom: 10px;
-        }
-
-        .delete-post {
-            background: red;
-            color: white;
-            border: none;
-            padding: 5px 10px;
-            margin-top: 10px;
-            cursor: pointer;
-        }
-
-        /* New Page Styles */
-        .page-content {
-            background: rgba(255,110,255,0.1);
-            border: 2px solid var(--primary-pink);
-            border-radius: 10px;
-            padding: 20px;
-            margin-top: 20px;
-        }
-
-        .rss-article {
-            border-bottom: 1px solid var(--primary-pink);
-            padding: 15px 0;
-        }
-
-        .rss-article:last-child {
-            border-bottom: none;
-        }
-
-        .rss-article a {
-            color: var(--primary-pink);
-            text-decoration: none;
-        }
-
-        .rss-article a:hover {
-            color: var(--secondary-blue);
-            text-decoration: underline;
-        }
-
-        .loading {
-            text-align: center;
-            color: var(--secondary-blue);
             margin: 20px 0;
         }
 
-        .substack-link {
-            display: inline-block;
-            background: var(--primary-pink);
-            color: black;
-            padding: 10px 20px;
+        .nav-item {
+            margin: 0 10px;
+            padding: 8px 15px;
+            background-color: white;
+            color: #9966cc;
+            border: 2px solid #cc99ff;
+            border-radius: 20px;
             text-decoration: none;
-            border-radius: 5px;
-            margin-top: 20px;
             font-weight: bold;
+            transition: all 0.3s;
+        }
+
+        .nav-item:hover {
+            background-color: #cc99ff;
+            color: white;
+            transform: scale(1.05);
+        }
+
+        /* Content Sections */
+        .section {
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 25px;
+            margin-bottom: 30px;
+            border: 2px solid #cc99ff;
+            border-radius: 15px;
+            position: relative;
+        }
+
+        .section::before {
+            content: '';
+            position: absolute;
+            top: -15px;
+            left: 20px;
+            background-color: #f0e6ff;
+            padding: 5px 10px;
+            font-size: 1.2em;
+        }
+
+        .section h2 {
+            color: #9933cc;
+            text-align: center;
+            margin-top: 0;
+            border-bottom: 2px dotted #99ccff;
+            padding-bottom: 10px;
+        }
+
+        .section p {
+            line-height: 1.6;
+            color: #333366;
+        }
+
+        /* Featured Content */
+        .featured {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .feature-card {
+            background-color: white;
+            border: 2px solid #cc99ff;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            transition: transform 0.3s;
+            box-shadow: 3px 3px 0px #ccf2ff;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 5px 5px 0px #ccf2ff;
+        }
+
+        .feature-card h3 {
+            color: #9966cc;
+            margin-top: 0;
+        }
+
+        .feature-card p {
+            color: #333366;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 20px;
+            background: linear-gradient(to right, #ccf2ff, #e6ccff);
+            border-top: 3px solid white;
+            color: #6666cc;
+            font-size: 0.9em;
+            border-radius: 15px 15px 0 0;
+        }
+
+        /* Button Styles */
+        .btn {
+            background-color: #9966cc;
+            color: white;
+            border: none;
+            padding: 10px 25px;
+            border-radius: 20px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 15px;
+            display: inline-block;
+            transition: all 0.3s;
+            border: 2px solid white;
+        }
+
+        .btn:hover {
+            background-color: #7733aa;
+            transform: scale(1.05);
+            box-shadow: 0 0 10px rgba(153, 102, 204, 0.5);
+        }
+
+        /* Announcement banner */
+        .announcement {
+            background-color: white;
+            padding: 15px;
+            text-align: center;
+            border-top: 2px solid #cc99ff;
+            border-bottom: 2px solid #cc99ff;
+            margin: 30px 0;
+            color: #9966cc;
+            font-weight: bold;
+        }
+
+        /* Contact Form */
+        .contact-form {
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 25px;
+            border-radius: 15px;
+            margin-top: 30px;
+            border: 3px solid #ccf2ff;
+        }
+
+        .contact-form h3 {
+            color: #9933cc;
+            text-align: center;
+            margin-top: 0;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            color: #663399;
+            font-weight: bold;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #cc99ff;
+            border-radius: 10px;
+            font-family: Arial, sans-serif;
+        }
+
+        .mission-statement {
+            font-style: italic;
+            padding: 15px;
+            background-color: rgba(204, 153, 255, 0.1);
+            border-left: 4px solid #9966cc;
+            margin: 15px 0;
+        }
+
+        /* Event list */
+        .event-list {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .event-item {
+            padding: 15px;
+            border-bottom: 1px dotted #cc99ff;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .event-date {
+            background-color: #cc99ff;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 0.9em;
+            font-weight: bold;
+        }
+
+        /* Resources section */
+        .resources-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .resource-item {
+            background-color: #f8f0ff;
+            padding: 15px;
+            border-radius: 10px;
+            border: 1px solid #cc99ff;
+            text-align: center;
+        }
+
+        .resource-item h4 {
+            margin-top: 0;
+            color: #9933cc;
+        }
+
+        /* Separator line */
+        .separator {
+            height: 3px;
+            background: linear-gradient(to right, #e6ccff, #ccf2ff, #e6ccff);
+            margin: 30px 0;
+            border-radius: 3px;
         }
     </style>
 </head>
 <body>
-    <nav class="nav-menu">
-        <a href="#" data-page="home">Home</a>
-        <a href="#" data-page="blog-posts">Blog</a>
-        <a href="#" data-page="community">Community</a>
-        <a href="#" data-page="about">About</a>
-        <a href="#" data-page="support">Support</a>
-    </nav>
+    <div class="container">
+        <header class="header">
+            <h1>The Femme Futures Cooperative</h1>
+            <div class="tagline">Empowering professionals to navigate workplace challenges</div>
+        </header>
 
-    <main>
-        <section id="home" class="page active">
-            <h2>Welcome to Femme Futures</h2>
-            <div class="page-content">
-                <p>Exploring tech, creativity, and empowerment through a Y2K lens.</p>
-                <h3>Latest Articles</h3>
-                <div id="rss-feed-container" class="loading">
-                    <p>Loading articles...</p>
+        <nav class="nav">
+            <a href="#" class="nav-item">Home</a>
+            <a href="#" class="nav-item">About Us</a>
+            <a href="#" class="nav-item">Resources</a>
+            <a href="#" class="nav-item">Events</a>
+            <a href="#" class="nav-item">Contact</a>
+        </nav>
+
+        <div class="announcement">
+            Welcome to The Femme Futures Cooperative! Join our next professional development workshop on April 15.
+        </div>
+
+        <section class="section">
+            <h2>About Femme Futures</h2>
+            <div class="mission-statement">
+                <p><strong>The Femme Futures Cooperative</strong> was founded with a mission to create a community space for young professionals who identify as over-achievers and activists to generate collective success by providing resources and platforms to thrive in challenging workplace environments. Our vision is to contribute to a world where driven individuals are equipped with the tools, guidance, and connections to overcome systemic barriers, fully utilize their talents, and enact positive change in their organizations and communities.</p>
+            </div>
+            <p>We understand the unique challenges faced by women and femme-identifying professionals in today's workplace. Through our network, we offer support, resources, and connections to help you navigate professional landscapes while staying true to your values and ambitions.</p>
+            <div style="text-align: center;">
+                <a href="#" class="btn">Join Our Network</a>
+            </div>
+        </section>
+
+        <div class="separator"></div>
+
+        <section class="section">
+            <h2>What We Offer</h2>
+            <div class="featured">
+                <div class="feature-card">
+                    <h3>Professional Development</h3>
+                    <p>Workshops, webinars, and resources tailored to the needs of over-achieving professionals looking to make an impact</p>
+                    <a href="#" class="btn">Explore Programs</a>
                 </div>
-                <div class="text-center">
-                    <a href="https://femmefuturescooperative.substack.com" target="_blank" class="substack-link">Visit Substack</a>
+                <div class="feature-card">
+                    <h3>Mentorship Connections</h3>
+                    <p>Connect with experienced mentors who can guide you through workplace challenges and career advancement</p>
+                    <a href="#" class="btn">Find a Mentor</a>
+                </div>
+                <div class="feature-card">
+                    <h3>Advocacy Tools</h3>
+                    <p>Resources and support for changemakers who want to drive positive transformation within their organizations</p>
+                    <a href="#" class="btn">Access Tools</a>
                 </div>
             </div>
         </section>
 
-        <section id="blog-posts" class="page">
-            <h2>Substack Articles</h2>
-            <div id="substack-articles-container" class="loading">
-                <p>Loading articles...</p>
+        <div class="separator"></div>
+
+        <section class="section">
+            <h2>Upcoming Events</h2>
+            <ul class="event-list">
+                <li class="event-item">
+                    <span>Salary Negotiation Workshop: Know Your Worth</span>
+                    <span class="event-date">April 15</span>
+                </li>
+                <li class="event-item">
+                    <span>Panel Discussion: Breaking Glass Ceilings in Tech</span>
+                    <span class="event-date">April 22</span>
+                </li>
+                <li class="event-item">
+                    <span>Networking Mixer: Connect with Industry Leaders</span>
+                    <span class="event-date">May 5</span>
+                </li>
+                <li class="event-item">
+                    <span>Workshop: Balancing Activism and Professional Growth</span>
+                    <span class="event-date">May 17</span>
+                </li>
+            </ul>
+            <div style="text-align: center; margin-top: 20px;">
+                <a href="#" class="btn">View All Events</a>
             </div>
         </section>
 
-        <section id="community" class="page">
-            <h2>Community</h2>
-            <div class="page-content">
-                <h3>Connect with Femme Futures</h3>
-                <p>Join our vibrant community of tech-savvy, creative individuals!</p>
-                <ul>
-                    <li>Discord Server (Coming Soon)</li>
-                    <li>Twitter/X Community</li>
-                    <li>Weekly Meetups</li>
-                </ul>
-            </div>
-        </section>
+        <div class="separator"></div>
 
-        <section id="about" class="page">
-            <h2>About Me</h2>
-            <div class="page-content">
-                <h3>Who I Am</h3>
-                <p>A tech enthusiast, writer, and creator passionate about empowering femme voices in technology and creative spaces.</p>
-                <h3>My Mission</h3>
-                <p>Bridging the gap between nostalgia and innovation, one story at a time.</p>
-            </div>
-        </section>
-
-        <section id="support" class="page">
-            <h2>Support the Project</h2>
-            <div class="page-content">
-                <h3>Buy Me a Coffee</h3>
-                <p>Help fuel creativity and keep the content coming!</p>
-                <a href="https://buymeacoffee.com/yourusername" target="_blank" style="display: inline-block; background: var(--primary-pink); color: black; padding: 10px 20px; text-decoration: none; border-radius: 5px;">
-                    ☕ Support Femme Futures
-                </a>
-            </div>
-        </section>
-    </main>
-
-    <script>
-        // Navigation Handler
-        document.querySelectorAll('.nav-menu a').forEach(link => {
-            link.addEventListener('click', (e) => {
-                e.preventDefault();
-                const pageId = e.target.getAttribute('data-page');
-                
-                // Hide all pages
-                document.querySelectorAll('.page').forEach(page => {
-                    page.classList.remove('active');
-                });
-
-                // Show selected page
-                document.getElementById(pageId).classList.add('active');
-            });
-        });
-
-        // RSS Feed Integration
-        async function fetchSubstackRSS() {
-            const homeFeedContainer = document.getElementById('rss-feed-container');
-            const substackArticlesContainer = document.getElementById('substack-articles-container');
+        <section class="section">
+            <h2>Professional Resources</h2>
+            <p>Access our curated collection of resources designed to help you overcome workplace challenges and advance your career while making a positive impact.</p>
             
-            try {
-                // Use the local JSON file (updated by the GitHub Action)
-                // This approach avoids CORS issues
-                const response = await fetch('./substack-feed.json');
-                
-                if (!response.ok) {
-                    throw new Error(`HTTP error! Status: ${response.status}`);
-                }
-                
-                const articles = await response.json();
+            <div class="resources-grid">
+                <div class="resource-item">
+                    <h4>Workplace Advocacy Guide</h4>
+                    <p>Strategies for creating change</p>
+                </div>
+                <div class="resource-item">
+                    <h4>Burnout Prevention</h4>
+                    <p>Tools for sustainable achievement</p>
+                </div>
+                <div class="resource-item">
+                    <h4>Leadership Development</h4>
+                    <p>Authentic leadership techniques</p>
+                </div>
+                <div class="resource-item">
+                    <h4>Networking Strategies</h4>
+                    <p>Building meaningful connections</p>
+                </div>
+            </div>
+        </section>
 
-                // Populate home page latest articles
-                homeFeedContainer.innerHTML = articles.slice(0, 3).map(article => `
-                    <div class="rss-article">
-                        <h4><a href="${article.link}" target="_blank">${article.title}</a></h4>
-                        <small>${article.published}</small>
-                        <p>${article.summary}</p>
-                    </div>
-                `).join('');
+        <div class="separator"></div>
 
-                // Populate full blog posts page
-                substackArticlesContainer.innerHTML = articles.map(article => `
-                    <div class="blog-post">
-                        <h3><a href="${article.link}" target="_blank">${article.title}</a></h3>
-                        <div class="blog-post-date">${article.published}</div>
-                        <p>${article.summary}</p>
-                        <a href="${article.link}" target="_blank" style="color: var(--primary-pink)">Read More</a>
-                    </div>
-                `).join('');
-            } catch (error) {
-                console.error('RSS Feed Error:', error);
-                
-                // Show error message with link to Substack
-                const errorHtml = `
-                    <p>Unable to load articles at this time.</p>
-                    <p><a href="https://femmefuturescooperative.substack.com" target="_blank" style="color: var(--primary-pink)">Visit our Substack directly</a></p>
-                `;
-                
-                homeFeedContainer.innerHTML = errorHtml;
-                substackArticlesContainer.innerHTML = errorHtml;
-            }
-        }
+        <section class="contact-form">
+            <h3>Connect With Us</h3>
+            <form>
+                <div class="form-group">
+                    <label for="name">Your Name:</label>
+                    <input type="text" id="name" placeholder="Full Name">
+                </div>
+                <div class="form-group">
+                    <label for="email">Professional Email:</label>
+                    <input type="email" id="email" placeholder="email@example.com">
+                </div>
+                <div class="form-group">
+                    <label for="industry">Industry:</label>
+                    <select id="industry">
+                        <option value="">Select your industry</option>
+                        <option value="tech">Technology</option>
+                        <option value="finance">Finance</option>
+                        <option value="healthcare">Healthcare</option>
+                        <option value="education">Education</option>
+                        <option value="nonprofit">Nonprofit</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="message">How can we help you?</label>
+                    <textarea id="message" rows="4" placeholder="Tell us about your professional goals or challenges..."></textarea>
+                </div>
+                <div style="text-align: center;">
+                    <button type="submit" class="btn">Submit</button>
+                </div>
+            </form>
+        </section>
 
-        // Call RSS feed function on page load
-        window.addEventListener('DOMContentLoaded', (event) => {
-            fetchSubstackRSS();
-        });
-    </script>
+        <footer class="footer">
+            <p>The Femme Futures Cooperative 2025</p>
+            <p>Empowering professionals to overcome barriers and create positive change</p>
+        </footer>
+    </div>
 </body>
 </html>
