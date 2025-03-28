@@ -1,56 +1,70 @@
-name: Fetch Substack RSS Feed
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Femme Futures: Y2K Edition</title>
+    <style>
+        /* Your existing CSS remains the same */
+    </style>
+</head>
+<body>
+    <!-- Your existing navigation and sections remain the same -->
 
-on:
-  schedule:
-    - cron: '0 */4 * * *'  # Runs every 4 hours
-  workflow_dispatch:  # Allows manual triggering
+    <script>
+        // Navigation Handler (your existing code)
+        document.querySelectorAll('.nav-menu a').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const pageId = e.target.getAttribute('data-page');
+                
+                // Hide all pages
+                document.querySelectorAll('.page').forEach(page => {
+                    page.classList.remove('active');
+                });
 
-jobs:
-  fetch-rss:
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v3
-    
-    - name: Set up Python
-      uses: actions/setup-python@v3
-      with:
-        python-version: '3.9'
-    
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install feedparser
-    
-    - name: Fetch RSS Feed
-      run: |
-        python - << EOF
-        import feedparser
-        import json
-        
-        feed_url = "https://femmefuturescooperative.substack.com/feed"
-        
-        feed = feedparser.parse(feed_url)
-        
-        # Extract relevant article information
-        articles = []
-        for entry in feed.entries[:10]:  # Limit to 10 most recent articles
-            article = {
-                "title": entry.title,
-                "link": entry.link,
-                "published": entry.published,
-                "summary": entry.summary
+                // Show selected page
+                document.getElementById(pageId).classList.add('active');
+            });
+        });
+
+        // RSS Feed Integration
+        async function fetchSubstackRSS() {
+            const homeFeedContainer = document.getElementById('rss-feed-container');
+            const substackArticlesContainer = document.getElementById('substack-articles-container');
+            
+            try {
+                // Use the GitHub Pages raw content URL for your repository
+                const response = await fetch('https://raw.githubusercontent.com/[YOUR-USERNAME]/[YOUR-REPO-NAME]/main/substack-feed.json');
+                const articles = await response.json();
+
+                // Populate home page latest articles
+                homeFeedContainer.innerHTML = articles.slice(0, 3).map(article => `
+                    <div class="rss-article">
+                        <h4><a href="${article.link}" target="_blank">${article.title}</a></h4>
+                        <small>${article.published}</small>
+                        <p>${article.summary}</p>
+                    </div>
+                `).join('');
+
+                // Populate full blog posts page
+                substackArticlesContainer.innerHTML = articles.map(article => `
+                    <div class="blog-post">
+                        <h3><a href="${article.link}" target="_blank">${article.title}</a></h3>
+                        <div class="blog-post-date">${article.published}</div>
+                        <p>${article.summary}</p>
+                        <a href="${article.link}" target="_blank" style="color: var(--primary-pink)">Read More</a>
+                    </div>
+                `).join('');
+            } catch (error) {
+                console.error('RSS Feed Error:', error);
+                homeFeedContainer.innerHTML = '<p>Error loading articles. Please try again later.</p>';
+                substackArticlesContainer.innerHTML = '<p>Error loading articles. Please try again later.</p>';
             }
-            articles.append(article)
-        
-        # Write to JSON file
-        with open('substack-feed.json', 'w') as f:
-            json.dump(articles, f, indent=2)
-        EOF
-    
-    - name: Commit and Push
-      run: |
-        git config user.name github-actions
-        git config user.email github-actions@github.com
-        git add substack-feed.json
-        git commit -m "Update Substack RSS feed" || exit 0
-        git push
+        }
+
+        // Call RSS feed function on page load
+        fetchSubstackRSS();
+    </script>
+</body>
+</html>
